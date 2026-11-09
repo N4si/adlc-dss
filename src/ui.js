@@ -53,7 +53,7 @@
   });
 
   document.getElementById('new-game').addEventListener('click', function () {
-    Game.newGame(state);
+    Game.startRun(state);
     draw();
   });
 
