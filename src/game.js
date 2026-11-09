@@ -29,7 +29,16 @@ var Game = (function () {
     return state;
   }
 
-  /** Sets up a fresh board. */
+  /** A player's new run: the score goes back to 0 (best is kept), on a fresh board. */
+  function startRun(state) {
+    state.score = 0;
+    return newGame(state);
+  }
+
+  /**
+   * Sets up a fresh board. The score is kept on purpose: the arcade cabinet's daily challenge
+   * calls newGame() between its rounds and adds their scores up. Use startRun() to reset it.
+   */
   function newGame(state) {
     var y = Math.floor(state.rows / 2);
     var x = Math.floor(state.cols / 2);
@@ -110,7 +119,7 @@ var Game = (function () {
     return false;
   }
 
-  return { create: create, newGame: newGame, turn: turn, step: step, placeFood: placeFood };
+  return { create: create, startRun: startRun, newGame: newGame, turn: turn, step: step, placeFood: placeFood };
 })();
 
 if (typeof module === 'object') module.exports = Game;

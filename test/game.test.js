@@ -51,3 +51,26 @@ test('the best score is kept across games', () => {
   assert.strictEqual(s.best, 1);
   assert.strictEqual(s.over, false);
 });
+
+test('a new run starts with no score but keeps the best', () => {
+  const s = Game.create(10, 10, { rand: first });
+  const head = s.snake[0];
+  s.food = { x: head.x + 1, y: head.y };
+  Game.step(s);
+  for (let i = 0; i < 10; i++) Game.step(s);
+  assert.strictEqual(s.over, true);
+  Game.startRun(s);
+  assert.strictEqual(s.score, 0);
+  assert.strictEqual(s.best, 1);
+  assert.strictEqual(s.over, false);
+  assert.strictEqual(s.snake.length, 3);
+});
+
+test('newGame keeps the score (the cabinet daily challenge adds rounds up)', () => {
+  const s = Game.create(10, 10, { rand: first });
+  const head = s.snake[0];
+  s.food = { x: head.x + 1, y: head.y };
+  Game.step(s);
+  Game.newGame(s);
+  assert.strictEqual(s.score, 1);
+});
